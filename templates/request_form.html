@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" integrity="sha384-dpuaG1suU0eT09tx5plTaGMLBsfDLzUCCUXOY2j/LSvXYuG6Bqs43ALlhIqAJVRb" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
+    <title>ثبت درخواست</title>
+
+</head>
+<body>
+    {% include 'base.html' %}
+    <div class="container mt-5 p-4 rounded ">
+        <h1 class="text-right">ثبت درخواست جدید</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="mb-3 float-start">
+                <label for="title" class="form-label">عنوان</label>
+                {{ form.title(class="form-control", size=32) }}
+                {% for error in form.title.errors %}
+                    <span class="text-danger">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">توضیحات</label>
+                <!-- <textarea id="description" name="description" rows="4" class="form-control" style="direction: rtl;"></textarea> -->
+                {{ form.description(class="form-control") }}
+                {% for error in form.description.errors %}
+                    <span class="text-danger">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="File" class="form-label">فایل ضمیمه :</label>
+                <input type="file" name="File" id="File" class="form-control" multiple>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="red" type="submit"><i class="icon ion-md-lock"></i>ثبت</button>
+            </div>
+        </form>
+    </div>
+    {% include 'footer.html' %}
+
+</body>
+</html>
+

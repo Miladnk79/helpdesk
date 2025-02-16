@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="fa-ir">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href= "{{ url_for('static',filename='styles.css') }}">
+    <title>نمایش درخواست</title>
+    <!-- Add Bootstrap or your preferred CSS framework -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: transparent;">
+    {% include 'base.html' %}
+    <div class="container mt-5">
+        <h1 style="text-align: right;">نمایش درخواست</h1>
+        
+        <!-- Debugging: Display the request object -->
+        <p style="text-align: right;"><strong>Request Object: {{ request }}</strong></p>
+        
+        <!-- Display Request Details -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ request.title }}</h5>
+                <p class="card-text"><strong>توضیحات:</strong> {{ request.description }}</p>
+                <p class="card-text"><strong>وضعیت درخواست:</strong> {{ request.status }}</p>
+                <p class="card-text"><strong>ایجادشده توسط:</strong> {{ request.user.username }}</p>
+                <p class="card-text"><strong>تاریخ ایجاد درخواست:</strong> {{ request.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                
+                <!-- Display Download Link for Attached File -->
+                    {% if request.filename %}
+                        <p class="card-text">
+                            <strong>فایل ضمیمه شده:</strong>
+                            <a href="{{ url_for('download_file', filename=request.filename) }}" class="btn btn-primary">
+                                دانلود {{ request.filename }}
+                            </a>
+                        </p>
+                    {% else %}
+                        <p class="card-text"><strong>فایل ضمیمه شده:</strong> فایلی ضمیمه نشده.</p>
+                    {% endif %}
+            </div>
+        </div>
+    
+        <!-- Back to Dashboard Button -->
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">بازگشت به داشبورد</a>
+    </div>     
+    {% include 'footer.html' %}
+   
+    </body>
+</html>
+
+<!-- view_request.html -->

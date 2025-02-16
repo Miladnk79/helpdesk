@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap">
+    <!-- <link rel="stylesheet" href= "{{ url_for('static',filename='stylesnav.css') }}"> -->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-md p-1 justify-content-between" style="background-color: #f16522; color: rgb(49, 49, 49);">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item" style="color: #EBECF0;">
+                        <a class="nav-link" style="color: #EBECF0;" href="{{ url_for('logout') }}">خروج</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item" style="color: #EBECF0;">
+                        <a class="nav-link" style="color: #EBECF0;" href="{{ url_for('login') }}">ورود</a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    </li>-->
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li class="nav-item" style="color: #EBECF0;">
+                    <a class="nav-link" style="color: #EBECF0;" href="{{ url_for('new_request') }}">درخواست جدید</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}" style="direction: rtl; color: rgb(255, 255, 255);">سامانه ثبت درخواست‌های واحد IT</a>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    {% for message in messages %}
+                        {{ message }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
