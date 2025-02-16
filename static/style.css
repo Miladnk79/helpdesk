@@ -1,0 +1,194 @@
+body, html {
+    background-color: #EBECF0;
+    font-family: 'Vazirmatn', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* request form */
+.reqbox {
+    direction: rtl;
+    background-color: #61677C;
+    align-content: center;
+    justify-content: right;
+}
+.reqbox-body {
+    min-width: 500px;
+    min-height: 350px;
+    border-radius: 20px;
+    position: relative;
+    padding: 20px;
+    min-height: 50vh;
+    display: grid;
+    justify-content: right;
+    background-color: #AE1100;
+}
+
+textarea {
+    background-color: transparent;
+    margin-right: 8px;
+    box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+}
+textarea:focus {
+    box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+}
+
+/* view */
+.card {
+    direction: rtl;
+    padding: 20px;
+    background-color: #d8ddeca8;
+    box-sizing: border-box;
+    box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+    width: 100%;
+}
+.card-body {
+    text-align: right;
+}
+.card-text {
+    color: #000;
+}
+
+/* view */
+.container {
+    direction: rtl;
+    padding: 20px;
+    justify-content: center;
+}
+
+.container h1 {
+    text-align: center; /* Center the text horizontally */
+    margin: 0; /* Remove default margin */
+}
+.container h3 {
+    padding-bottom: 20px;
+    text-align: center; /* Center the text horizontally */
+    margin: 0; /* Remove default margin */
+}
+
+table {
+  margin-top: 30px;
+    background-color: #EBECF0;
+    width: 80%;
+    border-collapse: collapse;
+}
+
+th, td {
+    background-color: #EBECF0;
+    border: 1px solid #030303;
+    padding: 8px;
+}
+
+p {
+    justify-content: right;
+    align-items: right;
+    color: #BABECC;
+    text-shadow: 1px 1px 1px #FFF;
+}
+
+form {
+    padding: 16px;
+    width: 320px;
+    margin: 0 auto;
+    justify-content: right;
+}
+
+/* neumorphic Style */
+.segment {
+    padding: 32px 10% ;
+    text-align: center;
+}
+
+button, input {
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    border-radius: 320px;
+    padding: 16px;
+    background-color: #EBECF0;
+}
+
+label {
+    direction: rtl;
+    justify-content: right;
+    align-items: right;
+    color: #000000;
+    display: block;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+input .file {
+    margin-top: auto;
+    margin-right: 8px;
+    box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+    width: 100%;
+    box-sizing: content-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+input {
+    margin-right: 8px;
+    box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+}
+input:focus {
+    box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+}
+
+button {
+    color: #61677C;
+    font-weight: bold;
+    box-shadow: -5px -5px 20px #FFF, 5px 5px 20px #BABECC;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-weight: 600;
+}
+button:hover {
+    box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
+}
+button:active {
+    box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+}
+button .icon {
+    margin-right: 8px;
+}
+button.unit {
+    border-radius: 8px;
+    line-height: 0;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8px;
+    font-size: 19.2px;
+}
+button.unit .icon {
+    margin-right: 0;
+}
+button.red {
+    display: block;
+    width: 100%;
+    color: #AE1100;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.input-group label {
+    margin: 0;
+    flex: 1;
+}
