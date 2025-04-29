@@ -8,6 +8,7 @@ from forms import RequestForm, LoginForm, RegistrationForm
 from models import db, User, Request
 from config import Config
 from datetime import datetime
+import jdatetime
 
 # flask db init
 # flask db migrate -m "Description of the changes"
@@ -70,19 +71,20 @@ def new_request():
     form = RequestForm()
     if form.validate_on_submit():
         file = request.files['File']
+        date = calculateTime()
         if file:
             filename = secure_filename(file.filename)
             unique_filename = generate_unique_filename(filename, os.path.join(app.config['UPLOAD_FOLDER']))
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
             print(f"Saving file to: {file_path}")
-
             file.save(file_path)
             new_request = Request(
                 title=form.title.data,
                 description=form.description.data,
                 filename=unique_filename,  # Save the filename in the database
                 user_id=current_user.id,
-                status='منتظر تایید'
+                status = 'منتظر تایید',
+                date_created = date
             )
             db.session.add(new_request)
             db.session.commit()
@@ -90,7 +92,7 @@ def new_request():
             return redirect(url_for('dashboard'))
         else:
             filename = ''
-            new_request = Request(title=form.title.data, description=form.description.data, filename=filename, user_id=current_user.id, status='منتظر تایید')
+            new_request = Request(title=form.title.data, description=form.description.data, filename=filename, user_id=current_user.id, status='منتظر تایید',date_created = date)
             db.session.add(new_request)
             db.session.commit()
             flash('درخواست با موفقیت ثبت شد', 'success')
@@ -205,7 +207,11 @@ def generate_unique_filename(filename, upload_folder):
 
     return new_filename
 
-
+def calculateTime():
+    today = datetime.now()
+    todaystr = str(today)
+    data = datetime(int(todaystr[:4]), int(todaystr[5:7]), int(todaystr[8:10]),int(todaystr[11:13]), int(todaystr[14:16]), int(todaystr[17:19]))
+    return jdatetime.datetime.fromgregorian(date=data)
 
 migrate = Migrate(app, db)
 
@@ -215,5 +221,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create database tables
 #    app.run(debug=True, port=5000)
-    app.run(debug=True, host="0.0.0.0", port=8080)
+    app.run(debug=False, host="0.0.0.0", port=8080)
 
