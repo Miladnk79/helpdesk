@@ -36,6 +36,11 @@ textarea {
 textarea:focus {
     box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
 }
+textarea.form-control{
+    min-height: 350px;
+    font-size: large;
+    resize: both;
+}
 
 /* view */
 .card {

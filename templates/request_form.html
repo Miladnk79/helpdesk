@@ -9,7 +9,7 @@
 </head>
 <body>
     {% include 'base.html' %}
-    <div class="container mt-5 p-4 rounded ">
+    <div class="container mt-2 p-4 rounded ">
         <h1 class="text-right">ثبت درخواست جدید</h1>
         <form method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
@@ -36,6 +36,8 @@
             <div class="d-flex justify-content-end">
                 <button class="red" type="submit"><i class="icon ion-md-lock"></i>ثبت</button>
             </div>
+            <!-- Back to Dashboard Button -->
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3 mx-auto" style="display: block; width: 250px;">بازگشت به داشبورد</a>
         </form>
     </div>
     {% include 'footer.html' %}
