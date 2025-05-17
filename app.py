@@ -59,11 +59,25 @@ def login():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    if current_user.role == 'client':
-        requests = Request.query.filter_by(user_id=current_user.id).order_by(Request.date_created.desc()).all()
+    sort_by = request.args.get('sort_by', 'date_created')
+    order = request.args.get('order', 'desc')
+
+    valid_sort_columns = {
+        'date_created': Request.date_created,
+        'status': Request.status
+    }
+    sort_column = valid_sort_columns.get(sort_by, Request.date_created)
+
+    if order == 'asc':
+        order_by_clause = sort_column.asc()
     else:
-        requests = Request.query.order_by(Request.date_created.desc()).all()  # Operators see all requests
-    return render_template('dashboard.html', requests=requests)
+        order_by_clause = sort_column.desc()
+
+    if current_user.role == 'client':
+        requests = Request.query.filter_by(user_id=current_user.id).order_by(order_by_clause).all()
+    else:
+        requests = Request.query.order_by(order_by_clause).all()  # Operators see all requests
+    return render_template('dashboard.html', requests=requests, sort_by=sort_by, order=order)
 
 @app.route('/request/new', methods=['GET', 'POST'])
 @login_required

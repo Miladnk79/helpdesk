@@ -16,8 +16,30 @@
                 <tr>
                     <th>عنوان</th>
                     <th>کاربر ثبت کننده</th>
-                    <th>تاریخ</th>
-                    <th>وضعیت</th>
+                    <th>
+                        <a href="{{ url_for('dashboard', sort_by='date_created', order='asc' if sort_by != 'date_created' or order == 'desc' else 'desc') }}">
+                            تاریخ
+                            {% if sort_by == 'date_created' %}
+                                {% if order == 'asc' %}
+                                    &#9650;
+                                {% else %}
+                                    &#9660;
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ url_for('dashboard', sort_by='status', order='asc' if sort_by != 'status' or order == 'desc' else 'desc') }}">
+                            وضعیت
+                            {% if sort_by == 'status' %}
+                                {% if order == 'asc' %}
+                                    &#9650;
+                                {% else %}
+                                    &#9660;
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
                     <th>عملیات</th>
                 </tr>
             </thead>
