@@ -62,21 +62,25 @@ def dashboard():
     sort_by = request.args.get('sort_by', 'date_created')
     order = request.args.get('order', 'desc')
 
-    valid_sort_columns = {
-        'date_created': Request.date_created,
-        'status': Request.status
-    }
-    sort_column = valid_sort_columns.get(sort_by, Request.date_created)
-
-    if order == 'asc':
-        order_by_clause = sort_column.asc()
-    else:
-        order_by_clause = sort_column.desc()
-
     if current_user.role == 'client':
-        requests = Request.query.filter_by(user_id=current_user.id).order_by(order_by_clause).all()
+        requests = Request.query.filter_by(user_id=current_user.id).all()
     else:
-        requests = Request.query.order_by(order_by_clause).all()  # Operators see all requests
+        requests = Request.query.all()  # Operators see all requests
+
+    # Sort requests in Python
+    if sort_by == 'date_created':
+        def parse_date(r):
+            try:
+                from jdatetime import datetime as jdatetime_datetime
+                # Try parsing jdatetime string to jdatetime.datetime object
+                return jdatetime_datetime.strptime(r.date_created, '%Y-%m-%d %H:%M:%S')
+            except Exception:
+                from datetime import datetime as dt
+                return dt.min
+        requests = sorted(requests, key=parse_date, reverse=(order != 'asc'))
+    elif sort_by == 'status':
+        requests = sorted(requests, key=lambda r: r.status, reverse=(order != 'asc'))
+
     return render_template('dashboard.html', requests=requests, sort_by=sort_by, order=order)
 
 @app.route('/request/new', methods=['GET', 'POST'])
@@ -86,6 +90,7 @@ def new_request():
     if form.validate_on_submit():
         file = request.files['File']
         date = calculateTime()
+        date_str = str(date)  # Convert jdatetime to string
         if file:
             filename = secure_filename(file.filename)
             unique_filename = generate_unique_filename(filename, os.path.join(app.config['UPLOAD_FOLDER']))
@@ -98,7 +103,7 @@ def new_request():
                 filename=unique_filename,  # Save the filename in the database
                 user_id=current_user.id,
                 status = 'منتظر تایید',
-                date_created = date
+                date_created = date_str
             )
             db.session.add(new_request)
             db.session.commit()
@@ -106,7 +111,7 @@ def new_request():
             return redirect(url_for('dashboard'))
         else:
             filename = ''
-            new_request = Request(title=form.title.data, description=form.description.data, filename=filename, user_id=current_user.id, status='منتظر تایید',date_created = date)
+            new_request = Request(title=form.title.data, description=form.description.data, filename=filename, user_id=current_user.id, status='منتظر تایید',date_created = date_str)
             db.session.add(new_request)
             db.session.commit()
             flash('درخواست با موفقیت ثبت شد', 'success')
