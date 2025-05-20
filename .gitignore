@@ -1,2 +1,4 @@
 __pycache__/
 helpdeskvenv/
+templates/modal_test.html
+migrations/
