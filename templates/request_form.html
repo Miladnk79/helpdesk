@@ -30,6 +30,13 @@
             </div>
             
             <div class="mb-3">
+                <label for="priority" class="form-label">اولویت</label>
+                {{ form.priority(class="form-select") }}
+                {% for error in form.priority.errors %}
+                    <span class="text-danger">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="mb-3">
                 <label for="File" class="form-label">فایل ضمیمه :</label>
                 <input type="file" name="File" id="File" class="form-control" multiple>
             </div>

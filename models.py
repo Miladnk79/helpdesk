@@ -25,6 +25,9 @@ class Request(db.Model):
     filename = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     status = db.Column(db.String(20), default='pending')  # New status field
+    priority = db.Column(db.String(20), default='Normal')  # New priority field with default Normal
     date_created = db.Column(db.String(50), default=calculateTime())  # Changed to string to store jdatetime string
+
+
 
 

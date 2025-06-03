@@ -40,6 +40,7 @@
                             {% endif %}
                         </a>
                     </th>
+                    <th>اولویت</th>
                     <th>عملیات</th>
                 </tr>
             </thead>
@@ -50,6 +51,7 @@
                         <td>{{ request.user.username }}</td>
                         <td>{% if request.date_created %}{{ request.date_created }}{% else %}N/A{% endif %}</td>
                         <td>{{ request.status }}</td>  
+                        <td>{{ request.priority }}</td>
                         <td>
                             {% if current_user.role|trim == 'operator' and request.status|trim != 'آماده تحویل' %}
                                 <form action="{{ url_for('accept_request', request_id=request.id) }}" method="post" style="display:inline;">

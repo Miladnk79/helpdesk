@@ -25,7 +25,7 @@
                 <p class="card-text"><strong>وضعیت درخواست:</strong> {{ request.status }}</p>
                 <p class="card-text"><strong>ایجادشده توسط:</strong> {{ request.user.username }}</p>
                 <p class="card-text"><strong>تاریخ ایجاد درخواست:</strong> {% if request.date_created %}{{ request.date_created }}{% else %}N/A{% endif %}</p>
-                
+                <p class="card-text"><strong>اولویت:</strong> {{ request.priority }}</p>
                 <!-- Display Download Link for Attached File -->
                     {% if request.filename %}
                         <p class="card-text">
