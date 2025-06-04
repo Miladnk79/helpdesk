@@ -6,3 +6,9 @@ migrations/
 __pycache__/config.cpython-312.pyc
 __pycache__/forms.cpython-312.pyc
 __pycache__/models.cpython-312.pyc
+migrations/alembic.ini
+migrations/env.py
+migrations/alembic.ini
+migrations/env.py
+migrations/README
+migrations/script.py.mako
