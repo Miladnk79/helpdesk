@@ -1,51 +1,57 @@
-
-<!DOCTYPE html>
-<html lang="fa-ir">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href= "{{ url_for('static',filename='styles.css') }}">
-    <title>نمایش درخواست</title>
-    <!-- Add Bootstrap or your preferred CSS framework -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>مشاهده درخواست</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
 </head>
-<body style="background-color: transparent;">
+<body>
     {% include 'base.html' %}
-    <div class="container mt-5">
-        <h1 style="text-align: right;">نمایش درخواست</h1>
-        
-        <!-- Debugging: Display the request object -->
-        <p style="text-align: right;"><strong>Request Object: {{ request }}</strong></p>
-        
-        <!-- Display Request Details -->
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ request.title }}</h5>
-                <p class="card-text"><strong>توضیحات:</strong> {{ request.description }}</p>
-                <p class="card-text"><strong>وضعیت درخواست:</strong> {{ request.status }}</p>
-                <p class="card-text"><strong>ایجادشده توسط:</strong> {{ request.user.username }}</p>
-                <p class="card-text"><strong>تاریخ ایجاد درخواست:</strong> {% if request.date_created %}{{ request.date_created }}{% else %}N/A{% endif %}</p>
-                <p class="card-text"><strong>اولویت:</strong> {{ request.priority }}</p>
-                <!-- Display Download Link for Attached File -->
-                    {% if request.filename %}
-                        <p class="card-text">
-                            <strong>فایل ضمیمه شده:</strong>
-                            <a href="{{ url_for('download_file', filename=request.filename) }}" class="btn btn-primary">
-                                دانلود {{ request.filename }}
-                            </a>
-                        </p>
-                    {% else %}
-                        <p class="card-text"><strong>فایل ضمیمه شده:</strong> فایلی ضمیمه نشده.</p>
-                    {% endif %}
-            </div>
+    <div class="container mt-1 p-4 rounded">
+        <h1 class="text-right">مشاهده درخواست <strong> {{ request.title }} </strong></h1>
+        <div class="mb-3">
+            <label class="form-label">توضیحات</label>
+            <p class="form-control" readonly>{{ request.description }}</p>
         </div>
-    
-        <!-- Back to Dashboard Button -->
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">بازگشت به داشبورد</a>
-    </div>     
-    {% include 'footer.html' %}
-   
-    </body>
-</html>
+        <div class="mb-3">
+            <label class="form-label">اولویت</label>
+            <p class="form-control" readonly>{{ request.priority }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">تاریخ ایجاد درخواست</label>
+            <p class="form-control" readonly>{{ request.date_created }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">فایل ضمیمه شده</label>
+            {% if request.filename %}
+                <p><a href="{{ url_for('download_file', filename=request.filename) }}">{{ request.filename }}</a></p>
+            {% else %}
+                <p>فایلی ضمیمه نشده.</p>
+            {% endif %}
+        </div>
 
-<!-- view_request.html -->
+        {% if reedited_requests %}
+        <hr>
+        <h3>ویرایش‌های مجدد مرتبط</h3>
+        {% for reedit in reedited_requests %}
+            <div class="mb-3 border p-3 rounded">
+                <p><strong>تاریخ ایجاد:</strong> {{ reedit.date_created }}</p>
+                <p><strong>توضیحات:</strong> {{ reedit.description }}</p>
+                <p><strong>اولویت:</strong> {{ reedit.priority }}</p>
+                <p><strong>فایل ضمیمه شده:</strong>
+                    {% if reedit.filename %}
+                        <a href="{{ url_for('download_file', filename=reedit.filename) }}">{{ reedit.filename }}</a>
+                    {% else %}
+                        فایلی ضمیمه نشده.
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+        {% endif %}
+
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3 mx-auto" style="display: block; width: 250px;">بازگشت به داشبورد</a>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

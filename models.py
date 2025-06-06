@@ -27,6 +27,8 @@ class Request(db.Model):
     status = db.Column(db.String(20), default='pending')  # New status field
     priority = db.Column(db.String(20), default='Normal')  # New priority field with default Normal
     date_created = db.Column(db.String(50), default=calculateTime())  # Changed to string to store jdatetime string
+    old_related_id = db.Column(db.Integer, db.ForeignKey('request.id'), nullable=True)
+    reedit_count = db.Column(db.Integer, default=0)
 
 
 

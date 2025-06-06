@@ -21,3 +21,10 @@ class RequestForm(FlaskForm):
     status = StringField('Status')
     priority = SelectField('Priority', choices=[('Normal', 'Normal'), ('Force', 'Force'), ('Ergent', 'Ergent')], default='Normal')
     submit = SubmitField('Submit Request')
+
+from wtforms import TextAreaField
+
+class ReeditRequestForm(FlaskForm):
+    changes = TextAreaField('Changes Needed', validators=[DataRequired()])
+    file = FileField('File')  # Optional file upload
+    submit = SubmitField('Submit Re-edit')

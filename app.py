@@ -4,7 +4,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_migrate import Migrate  # Import Migrate
 from werkzeug.utils import secure_filename
 import os
-from forms import RequestForm, LoginForm, RegistrationForm
+from forms import RequestForm, LoginForm, RegistrationForm, ReeditRequestForm
 from models import db, User, Request
 from config import Config
 from datetime import datetime
@@ -66,9 +66,28 @@ def dashboard():
     order = request.args.get('order', 'desc')
 
     if current_user.role == 'client':
-        requests = Request.query.filter_by(user_id=current_user.id).all()
+        # Show only latest re-edit or original requests for the client
+        subquery = db.session.query(
+            db.func.max(Request.id).label('max_id')
+        ).group_by(
+            db.func.coalesce(Request.old_related_id, Request.id)
+        ).subquery()
+
+        requests = Request.query.filter(
+            Request.id.in_(db.session.query(subquery.c.max_id)),
+            Request.user_id == current_user.id
+        ).all()
     else:
-        requests = Request.query.all()  # Operators see all requests
+        # Show only latest re-edit or original requests for operators
+        subquery = db.session.query(
+            db.func.max(Request.id).label('max_id')
+        ).group_by(
+            db.func.coalesce(Request.old_related_id, Request.id)
+        ).subquery()
+
+        requests = Request.query.filter(
+            Request.id.in_(db.session.query(subquery.c.max_id))
+        ).all()
 
     # Sort requests in Python
     if sort_by == 'date_created':
@@ -105,6 +124,7 @@ def new_request():
                 description=form.description.data,
                 filename=unique_filename,  # Save the filename in the database
                 user_id=current_user.id,
+                priority = form.priority.data,
                 status = 'منتظر تایید',
                 date_created = date_str
             )
@@ -114,7 +134,7 @@ def new_request():
             return redirect(url_for('dashboard'))
         else:
             filename = ''
-            new_request = Request(title=form.title.data, description=form.description.data, filename=filename, user_id=current_user.id, status='منتظر تایید',date_created = date_str)
+            new_request = Request(title=form.title.data, description=form.description.data, filename=filename, user_id=current_user.id, priority = form.priority.data, status='منتظر تایید',date_created = date_str)
             db.session.add(new_request)
             db.session.commit()
             flash('درخواست با موفقیت ثبت شد', 'success')
@@ -188,13 +208,72 @@ def edit_request(request_id):
         print(form.errors)
     return render_template('request_form_edit.html', form=form)
 
+@app.route('/request/reedit/<int:request_id>', methods=['GET', 'POST'])
+@login_required
+def reedit_request(request_id):
+    original_request = Request.query.get_or_404(request_id)
+    if original_request.user_id != current_user.id or original_request.status != 'آماده تحویل':
+        flash('درخواست مورد نظر برای شما قابل ویرایش مجدد نیست', 'danger')
+        return redirect(url_for('dashboard'))
+    if original_request.reedit_count >= 2:
+        flash('تعداد دفعات ویرایش مجدد به حد نصاب رسیده است', 'danger')
+        return redirect(url_for('dashboard'))
+    date = calculateTime()
+    date_str = str(date)
+    form = ReeditRequestForm()
+    if form.validate_on_submit():
+        file = request.files['file']
+        filename = ''
+        if file:
+            filename_raw = secure_filename(file.filename)
+            filename = generate_unique_filename(filename_raw, os.path.join(app.config['UPLOAD_FOLDER']))
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+
+        # Always reference the main request id for old_related_id
+        main_request_id = original_request.old_related_id if original_request.old_related_id else original_request.id
+
+        new_request = Request(
+            title=original_request.title,
+            description=form.changes.data,
+            filename=filename if filename else original_request.filename,
+            user_id=current_user.id,
+            status='منتظر تایید',
+            date_created=date_str,
+            priority=original_request.priority,
+            old_related_id=main_request_id,
+            reedit_count=original_request.reedit_count + 1
+        )
+        db.session.add(new_request)
+        # Update original request reedit_count on main request
+        main_request = Request.query.get(main_request_id)
+        if main_request:
+            main_request.reedit_count += 1
+        db.session.commit()
+        flash('درخواست با موفقیت ویرایش مجدد شد', 'success')
+        return redirect(url_for('dashboard'))
+
+    # Pre-fill form with empty changes field
+    return render_template('request_form_reedit.html', form=form, original_request=original_request)
+
 ## Edit_New
 @app.route('/request/view/<int:request_id>')
 @login_required
 def view_request(request_id):
     request_to_view = Request.query.get_or_404(request_id)
-    print(f"Request Data: {request_to_view}")
-    return render_template('request_form_view.html', request=request_to_view)
+
+    # Determine main request id
+    main_request_id = request_to_view.old_related_id if request_to_view.old_related_id else request_to_view.id
+
+    # Get main request
+    main_request = Request.query.get(main_request_id)
+
+    # Get all re-edits related to main request, ordered by date_created ascending
+    reedited_requests = Request.query.filter(
+        Request.old_related_id == main_request_id
+    ).order_by(Request.date_created.asc()).all()
+
+    return render_template('request_form_view.html', request=main_request, reedited_requests=reedited_requests)
 ##
 
 @app.route('/uploads/<filename>')
