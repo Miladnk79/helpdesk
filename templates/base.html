@@ -15,10 +15,9 @@
                     <li class="nav-item" style="color: #EBECF0;">
                         <a class="nav-link" style="color: #EBECF0;" href="{{ url_for('logout') }}">خروج</a>
                     </li>
-                {% else %}
-                    <li class="nav-item" style="color: #EBECF0;">
+                    <!--<li class="nav-item" style="color: #EBECF0;">
                         <a class="nav-link" style="color: #EBECF0;" href="{{ url_for('login') }}">ورود</a>
-                    </li>
+                    </li> -->
                     <!--<li class="nav-item">
                         <a class="nav-link" href="{{ url_for('register') }}">Register</a>
                     </li>-->
@@ -30,7 +29,7 @@
                 {% endif %}
             </ul>
         </div>
-        <a class="navbar-brand" href="{{ url_for('dashboard') }}" style="direction: rtl; color: rgb(255, 255, 255);">سامانه ثبت درخواست‌های واحد طراحی</a>
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}" style="direction: rtl; color: rgb(255, 255, 255); padding-right: 10px;">سامانه ثبت درخواست‌های واحد طراحی</a>
     </nav>
 
     <div class="container mt-4">
