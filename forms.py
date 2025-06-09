@@ -19,7 +19,7 @@ class RequestForm(FlaskForm):
     file = FileField('File')  # For file upload
     filename = FileField('filename')
     status = StringField('Status')
-    priority = SelectField('Priority', choices=[('Normal', 'Normal'), ('Force', 'Force'), ('Ergent', 'Ergent')], default='Normal')
+    priority = SelectField('Priority', choices=[('Normal', 'عادی'), ('Force', 'در اسرع وقت'), ('Urgent', 'اضطراری')], default='Normal')
     submit = SubmitField('Submit Request')
 
 from wtforms import TextAreaField
