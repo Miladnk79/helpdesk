@@ -17,7 +17,7 @@
                     <th>عنوان</th>
                     <th>کاربر ثبت کننده</th>
                     <th>
-                        <a href="{{ url_for('dashboard', sort_by='date_created', order='asc' if sort_by != 'date_created' or order == 'desc' else 'desc') }}">
+                        <a href="{{ url_for('dashboard', sort_by='date_created', order='asc' if sort_by != 'date_created' or order == 'desc' else 'desc') }}" style="text-decoration: none; color: #f16522;">
                             تاریخ
                             {% if sort_by == 'date_created' %}
                                 {% if order == 'asc' %}
@@ -29,7 +29,7 @@
                         </a>
                     </th>
                     <th>
-                        <a href="{{ url_for('dashboard', sort_by='status', order='asc' if sort_by != 'status' or order == 'desc' else 'desc') }}">
+                        <a href="{{ url_for('dashboard', sort_by='status', order='asc' if sort_by != 'status' or order == 'desc' else 'desc') }}" style="text-decoration: none; color: #f16522;">
                             وضعیت
                             {% if sort_by == 'status' %}
                                 {% if order == 'asc' %}
@@ -47,7 +47,7 @@
             <tbody class="table-group-divider">
                 {% for request in requests %}
                     <tr>
-                        <td><a href="{{ url_for('view_request', request_id=request.id) }}"> {{ request.title }}</a></td>
+                        <td><a href="{{ url_for('view_request', request_id=request.id) }}" style="text-decoration: none; color: #f16522; font-weight: bold;"> {{ request.title }}</a></td>
                         <td>{{ request.user.username }}</td>
                         <td>{% if request.date_created %}{{ request.date_created }}{% else %}N/A{% endif %}</td>
                         <td>{{ request.status }}</td>  

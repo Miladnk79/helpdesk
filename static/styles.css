@@ -1,4 +1,6 @@
 body, html {
+    background-image: url(email-pattern.webp);
+    background-repeat:repeat;
     background-color: #EBECF0;
     font-family: 'Vazirmatn', sans-serif;
     margin: 0;

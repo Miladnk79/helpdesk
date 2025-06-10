@@ -43,8 +43,11 @@
             <div class="d-flex justify-content-end">
                 <button class="red" type="submit"><i class="icon ion-md-lock"></i>ثبت</button>
             </div>
+        <br>
             <!-- Back to Dashboard Button -->
-        <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3 mx-auto" style="display: block; width: 250px;">بازگشت به داشبورد</a>
+            <div class="d-flex justify-content-end">
+                <button class="red" type="button"><a href="{{ url_for('dashboard') }}" style="text-decoration: none;">بازگشت به داشبورد</a></button>
+            </div>
         </form>
     </div>
     {% include 'footer.html' %}

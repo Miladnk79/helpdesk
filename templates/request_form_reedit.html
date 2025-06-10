@@ -56,7 +56,11 @@
             <div class="d-flex justify-content-end">
                 <button class="red" type="submit">ثبت</button>
             </div>
-            <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3 mx-auto" style="display: block; width: 250px;">بازگشت به داشبورد</a>
+            <!-- Back to Dashboard Button -->
+            <div class="d-flex justify-content-end">
+                <button class="red" type="button"><a href="{{ url_for('dashboard') }}" style="text-decoration: none;">بازگشت به داشبورد</a></button>
+            </div>
+            <!-- <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3 mx-auto" style="display: block; width: 250px;">بازگشت به داشبورد</a> -->
         </form>
     </div>
     {% include 'footer.html' %}
