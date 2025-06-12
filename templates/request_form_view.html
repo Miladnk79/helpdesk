@@ -12,7 +12,7 @@
         <h1 class="text-right">مشاهده درخواست <strong> {{ request.title }} </strong></h1>
         <div class="mb-3">
             <label class="form-label">توضیحات</label>
-            <p class="form-control" readonly>{{ request.description }}</p>
+            <pre class="form-control" readonly style="white-space: pre-wrap;">{{ request.description }}</pre>
         </div>
         <div class="mb-3">
             <label class="form-label">اولویت</label>
