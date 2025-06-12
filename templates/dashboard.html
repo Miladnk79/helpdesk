@@ -70,7 +70,8 @@
                                             <h5 class="modal-title" id="exampleModalLabel{{ request.id }}"> رد درخواست  {{ request.title }}</h5>
                                         </div>
                                         <div class="modal-body">
-                                            چرا تمایل به رد این درخواست دارید؟
+                                            <label for="rejection_reason{{ request.id }}" class="form-label">چرا تمایل به رد این درخواست دارید؟</label>
+                                            <textarea class="form-control" id="rejection_reason{{ request.id }}" name="rejection_reason" rows="3" required></textarea>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

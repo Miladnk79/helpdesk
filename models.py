@@ -29,6 +29,7 @@ class Request(db.Model):
     date_created = db.Column(db.String(50), default=calculateTime())  # Changed to string to store jdatetime string
     old_related_id = db.Column(db.Integer, db.ForeignKey('request.id'), nullable=True)
     reedit_count = db.Column(db.Integer, default=0)
+    rejection_reasons = db.Column(db.Text, default='')
 
 
 

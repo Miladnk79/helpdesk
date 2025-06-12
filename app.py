@@ -157,6 +157,17 @@ def accept_request(request_id):
 @login_required
 def reject_request(request_id):
     request_to_update = Request.query.get_or_404(request_id)
+    rejection_reason = request.form.get('rejection_reason', '').strip()
+    if rejection_reason:
+        date = calculateTime()
+        date_str = str(date)  # Convert jdatetime to string
+        # current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_time = date_str
+        new_reason_entry = f"{current_time}: {rejection_reason}"
+        if request_to_update.rejection_reasons:
+            request_to_update.rejection_reasons += f"\n{new_reason_entry}"
+        else:
+            request_to_update.rejection_reasons = new_reason_entry
     request_to_update.status = 'نیاز به بررسی دارد'
     db.session.commit()
     flash('درخواست رد شد، نیاز به بازبینی بیشتر دارد', 'warning')
@@ -199,7 +210,6 @@ def edit_request(request_id):
             return redirect(url_for('dashboard'))
         else:
             filename = form.filename.data
-
             db.session.commit()
             flash('درخواست با موفقیت ثبت شد', 'success')
             return redirect(url_for('dashboard'))

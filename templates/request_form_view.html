@@ -23,32 +23,52 @@
             <p class="form-control" readonly>{{ request.date_created }}</p>
         </div>
         <div class="mb-3">
-            <label class="form-label">فایل ضمیمه شده</label>
+            <label class="form-label">ضمیمه </label>
             {% if request.filename %}
                 <p><a href="{{ url_for('download_file', filename=request.filename) }}">{{ request.filename }}</a></p>
             {% else %}
                 <p>فایلی ضمیمه نشده.</p>
             {% endif %}
         </div>
-
+        {% if request.rejection_reasons %}
+                <hr>
+                <h3>دلایل رد درخواست</h3>
+                <ul>
+                    {% for reason in request.rejection_reasons.split('\n') %}
+                        <li>{{ reason }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
         {% if reedited_requests %}
         <hr>
         <h3>ویرایش‌های مجدد مرتبط</h3>
         {% for reedit in reedited_requests %}
             <div class="mb-3 border p-3 rounded">
+                <h3>ویرایش‌</h3>
                 <p><strong>تاریخ ایجاد:</strong> {{ reedit.date_created }}</p>
                 <p><strong>توضیحات:</strong> {{ reedit.description }}</p>
                 <p><strong>اولویت:</strong> {{ reedit.priority }}</p>
-                <p><strong>فایل ضمیمه شده:</strong>
+                <p><strong>ضمیمه :</strong>
                     {% if reedit.filename %}
                         <a href="{{ url_for('download_file', filename=reedit.filename) }}">{{ reedit.filename }}</a>
                     {% else %}
                         فایلی ضمیمه نشده.
                     {% endif %}
                 </p>
+                
+                {% if reedit.rejection_reasons %}
+                <hr>
+                <h3>دلایل رد درخواست ویرایش مجدد</h3>
+                <ul>
+                    {% for reason in reedit.rejection_reasons.split('\n') %}
+                        <li>{{ reason }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
         {% endfor %}
         {% endif %}
+        
             <!-- Back to Dashboard Button -->
             <div class="d-flex justify-content-end">
                 <button class="red" type="button"><a href="{{ url_for('dashboard') }}" style="text-decoration: none;">بازگشت به داشبورد</a></button>
