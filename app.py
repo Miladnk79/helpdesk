@@ -256,7 +256,7 @@ def reedit_request(request_id):
         )
         db.session.add(new_request)
         # Update original request reedit_count on main request
-        main_request = Request.query.get(main_request_id)
+        main_request = Request.session.get(main_request_id)
         if main_request:
             main_request.reedit_count += 1
         db.session.commit()
@@ -276,7 +276,7 @@ def view_request(request_id):
     main_request_id = request_to_view.old_related_id if request_to_view.old_related_id else request_to_view.id
 
     # Get main request
-    main_request = Request.query.get(main_request_id)
+    main_request = Request.sesion.get(main_request_id)
 
     # Get all re-edits related to main request, ordered by date_created ascending
     reedited_requests = Request.query.filter(
@@ -332,5 +332,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create database tables
 #    app.run(debug=True, port=5000)
-    app.run(debug=True, host="0.0.0.0", port=8080)
+    app.run(debug=False, host="0.0.0.0", port=8080)
 
