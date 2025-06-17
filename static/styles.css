@@ -3,6 +3,7 @@ body, html {
     background-repeat:repeat;
     background-color: #EBECF0;
     font-family: 'Vazirmatn', sans-serif;
+    src: url("Vazirmatn-Bold.ttf") format("ttf");
     margin: 0;
     padding: 0;
 }
@@ -91,6 +92,17 @@ th, td {
 }
 
 p {
+    font-family: 'Vazirmatn', sans-serif;
+    src: url("Vazirmatn-Bold.ttf") format("ttf");
+    justify-content: right;
+    align-items: right;
+    color: #000000;
+    text-shadow: 1px 1px 1px #FFF;
+}
+
+p .form-control {
+    font-family: 'Vazirmatn', sans-serif;
+    src: url("Vazirmatn-Bold.ttf") format("ttf");
     justify-content: right;
     align-items: right;
     color: #000000;
