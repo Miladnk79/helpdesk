@@ -95,8 +95,7 @@ th, td {
 }
 
 p {
-    font-family: 'Vazirmatn', sans-serif;
-    src: url("Vazirmatn-Bold.ttf") format("ttf");
+    font-family: 'Vazirmatn';
     justify-content: right;
     align-items: right;
     color: #000000;
@@ -104,8 +103,7 @@ p {
 }
 
 p .form-control {
-    font-family: 'Vazirmatn', sans-serif;
-    src: url("Vazirmatn-Bold.ttf") format("ttf");
+    font-family: 'Vazirmatn';
     justify-content: right;
     align-items: right;
     color: #000000;
