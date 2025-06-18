@@ -1,9 +1,12 @@
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url("Vazirmatn-Bold.ttf") format("ttf");
+}
 body, html {
     background-image: url(email-pattern.webp);
     background-repeat:repeat;
     background-color: #EBECF0;
-    font-family: 'Vazirmatn', sans-serif;
-    src: url("Vazirmatn-Bold.ttf") format("ttf");
+    font-family: 'Vazirmatn';
     margin: 0;
     padding: 0;
 }

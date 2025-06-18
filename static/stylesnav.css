@@ -1,8 +1,11 @@
-
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url("Vazirmatn-Bold.ttf") format("ttf");
+}
 body, html {
     background-color: #EBECF0;
     direction: rtl;
-    font-family: 'Vazirmatn', sans-serif;
+    font-family: 'Vazirmatn';
     margin: 0;
     padding: 0;
 }
