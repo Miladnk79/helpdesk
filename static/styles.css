@@ -1,6 +1,8 @@
 @font-face {
     font-family: 'Vazirmatn';
-    src: url("Vazirmatn-Bold.ttf") format("ttf");
+    src: url("Vazirmatn.woff2") format("woff2"),
+        url("Vazirmatn-Bold.woff2") format("woff2");
+    font-style: normal;
 }
 body, html {
     background-image: url(email-pattern.webp);
